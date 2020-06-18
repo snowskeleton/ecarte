@@ -1,3 +1,4 @@
+*.swp
 playerbase.db
 *.gem
 *.rbc
