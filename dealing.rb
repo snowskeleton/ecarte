@@ -17,7 +17,7 @@ class Dealing
                 end
 		Dealing.set_dealer()
 
-                sleep(.1)
+                sleep(0.5)
                 puts #newline
                 puts #newline
         end
@@ -25,6 +25,10 @@ class Dealing
 	def self.set_dealer()
 		Player.set_dealer(Player.list.first)
 		Player.set_eldest_hand(Player.list.last)
+		#puts Player.dealer
+		#puts Player.eldest_hand
+		#puts "\nclass Dealing meth self.set_dealer executed"
+		
 	end
 end
 

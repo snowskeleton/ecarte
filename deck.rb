@@ -3,9 +3,9 @@
 class Deck
 	@@deck = []
 	def self.newdeck()
-		["Clubs", "Hearts", "Spades", "Diamonds"].each do |number|
+		["Clubs", "Hearts", "Spades", "Diamonds"].each do |suit|
 			value = 1
-			["7", "8", "9", "10", "A", "J", "Q", "K"].each do |suit|
+			["7", "8", "9", "10", "Ace", "Jack", "Queen", "King"].each do |number|
 				@@deck.push(Cards.new(number, suit, value))
 				value += 1
 			end
@@ -20,6 +20,10 @@ class Deck
 		@@deck.each do |card|
 			p card
 		end
+	end
+
+	def self.deck()
+		@@deck
 	end
 end
 

@@ -1,11 +1,12 @@
 #!/bin/ruby
 class Cards
 	@@trump = ""
-	attr_accessor :number, :suit, :value
+	attr_accessor :number, :suit, :value, :name
 	def initialize(number, suit, value)
 		@number = number
 		@suit = suit
 		@value = value
+		@name = "#{number} of #{suit}"
 	end
 
 	def self.winner(card1, card2)
@@ -18,5 +19,9 @@ class Cards
 				return card2
 			end
 		end
+	end
+
+	def name()
+		@name
 	end
 end

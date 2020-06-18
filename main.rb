@@ -13,5 +13,8 @@ while Game.keep_going?()
 	Dealing.rotate()
 	Deck.newdeck()
 	Deck.shuffle()
+	Player.list.each do |player|
+		player.draw(5)
+	end
 	Game.change_cards()
 end
