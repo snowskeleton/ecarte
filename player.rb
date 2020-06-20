@@ -49,10 +49,10 @@ class Player
 	end
 
 	def hand()
-		j = 0
+		number = 0
 		@hand.each do |card|
-			print j.to_s, + ". ", + @hand[j].name
-			j += 1
+			print number.to_s, + ". ", + @hand[number].name
+			number += 1
 			puts
 		end
 	end
@@ -66,7 +66,7 @@ class Player
 	def pick_card()
 		1.times do
 			card = gets.to_i
-			if card > @hand.count - 1
+			if card > @hand.count - 1 # -1, else it allows you to select 5, which doesn't work the way you want when counting from 0.
 				print "\nHurr durr, that's not a card. Try again.\n\nCard? "
 				redo
 			end

@@ -10,7 +10,7 @@ class Game
         end
 
 	def self.change_cards()
-		Player.dealer.set_vulnerable=(true)
+		Player.dealer.set_vulnerable=(false)
 		Player.eldest_hand.set_vulnerable=(true)
 		first = true
 		while Player.eldest_hand.discard?()
@@ -26,11 +26,13 @@ class Game
 			#
 			if Player.dealer.permission?(answer)
 				first = false
-				Player.dealer.set_vulnerable=(false)
 				Player.eldest_hand.redraw(answer)
 				Player.dealer.redraw(nil)
-			elsif first == true
-				Player.dealer.set_vulnerable=(true)
+			else
+				if first == true
+					Player.dealer.set_vulnerable=(true)
+				end
+				break
 			end
 		end
 		puts
