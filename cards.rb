@@ -1,7 +1,34 @@
 #!/bin/ruby
 class Cards
+	@@deck = []
 	@@trump = ""
+
+	def self.newdeck()
+		["Clubs", "Hearts", "Spades", "Diamonds"].each do |suit|
+			value = 1
+			["7", "8", "9", "10", "Ace", "Jack", "Queen", "King"].each do |number|
+				@@deck.push(Cards.new(number, suit, value))
+				value += 1
+			end
+		end
+	end
+
+	def self.shuffle()
+		@@deck.shuffle!
+	end
+
+	def self.showdeck()
+		@@deck.each do |card|
+			p card
+		end
+	end
+
+	def self.deck()
+		@@deck
+	end
+
 	attr_accessor :number, :suit, :value, :name
+
 	def initialize(number, suit, value)
 		@number = number
 		@suit = suit
@@ -9,14 +36,14 @@ class Cards
 		@name = "#{number} of #{suit}"
 	end
 
-	def self.winner(card1, card2)
-		if card1.suit != card2.suit && card2.suit != @@trump
-			return card1
+	def self.winner(leader_card, follower_card)
+		if leader_card.suit != follower_card.suit && follower_card.suit != @@trump
+			return leader_card
 		else
-			if card1.value > card2.value
-				return card1
-			elsif card1.value > card2.value
-				return card2
+			if leader_card.value > follower_card.value
+				return leader_card
+			elsif leader_card.value > follower_card.value
+				return follower_card
 			end
 		end
 	end

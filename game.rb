@@ -18,6 +18,12 @@ class Game
 
 			print "How many cards would you, #{Player.eldest_hand.name}, like to discard? "
 			answer = gets.to_i
+			#this could be a method
+			if answer > Cards.deck.count
+				puts "There aren't enough cards for that. Choose a different number, please.\n"
+				redo
+			end
+			#
 			if Player.dealer.permission?(answer)
 				first = false
 				Player.dealer.set_vulnerable=(false)
@@ -27,11 +33,13 @@ class Game
 				Player.dealer.set_vulnerable=(true)
 			end
 		end
+		puts
 		if Player.dealer.vulnerable?()
 			puts "#{Player.dealer.name} is vulnerable.\n"
 		end
 		if Player.eldest_hand.vulnerable?()
 			puts "#{Player.eldest_hand.name} is vulnerable.\n"
 		end
+		puts
 	end
 end
