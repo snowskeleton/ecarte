@@ -68,7 +68,7 @@ class Player
 
     def pick_card()
         1.times do
-            card = gets.to_i
+            card = Game.input_number(nil)
             if card > @hand.count - 1 # -1, else it allows you to select 5, which doesn't work the way you want when counting from 0.
                 print "\nHurr durr, that's not a card. Try again.\n\nCard? "
                 redo
@@ -84,7 +84,7 @@ class Player
 
         until tricks == 6
             puts "#{@@leader.name} leads.\n\n"
-            leader_card = @@leader.play()
+            leader_card = @@leader.lead()
             follower_card = @@follower.follow(leader_card)
             winner = Cards.winner(leader_card, follower_card)
 
@@ -104,21 +104,16 @@ class Player
         end
     end
 
-    def self.declare_score()
-                @@dealer.tricks > @@follower.tricks ? winner = @@dealer : winner = @@eldest_hand
-                puts "#{winner.name} got #{winner.tricks}!"
-    end
-
-    def play()
+    def lead()
         self.hand
         puts
 
         print "Which card would you like to play? "
-        card = self.pick_card()
+        input = self.pick_card()
         puts
 
-        puts "\Playing #{@hand[card].name}\n"
-        card = @hand.delete_at(card)
+        puts "\Playing #{@hand[input].name}\n"
+        card = @hand.delete_at(input)
         puts
 
         sleep(1)
@@ -142,19 +137,19 @@ class Player
             puts
 
             if force_follow_suit && @hand[card].suit != leader_card.suit
-                puts "cards don't match"
+                puts "Please follow suit."
                 puts
                 sleep(1)
                 redo
             end
-        end
-
+            # I'd love to take from here til the end out of the 1.times block, but then local variables break.
             puts "\Playing #{@hand[card].name}\n"
             card = @hand.delete_at(card)
             puts
 
             sleep(1)
             return card
+        end
     end
 
     def discard?()

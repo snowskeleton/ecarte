@@ -11,7 +11,9 @@ class Game
 
     def self.input_number(string)
         1.times do
-            print string
+            if string != nil 
+                print string
+            end
             input = gets.chomp
             input if Float(input) rescue redo
         end
@@ -70,4 +72,10 @@ class Game
             end
         end
 	end
+
+    def self.declare_score()
+                Player.dealer.tricks > Player.follower.tricks ? winner = Player.dealer : winner = Player.eldest_hand
+                puts "#{winner.name} got #{winner.tricks}!"
+    end
+
 end

@@ -17,5 +17,6 @@ while Game.keep_going?()
     Cards.set_trump()
 	Game.change_cards()
 	Player.play()
-    Player.declare_score()
+    Game.count_tricks()
+    #Player.
 end
