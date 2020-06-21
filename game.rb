@@ -36,7 +36,7 @@ class Game
 			end
 			#
 
-            Player.dealer.hand
+            Player.dealer.show_hand()
             puts
 			if Player.dealer.permission?(answer)
 				first = false
@@ -71,26 +71,4 @@ class Game
             end
         end
 	end
-
-    def self.declare_score()
-        if Player.dealer.tricks > Player.eldest_hand.tricks 
-            Player.winner = Player.dealer and Player.loser = Player.eldest_hand 
-        else
-            Player.winner = Player.eldest_hand and Player.loser = Player.dealer
-        end
-        puts "#{Player.winner.name} got #{Player.winner.tricks}!"
-
-        Player.winner.score += 1
-
-        if Player.loser.vulnerable?
-            Player.winner.score += 1
-        end
-
-        if Player.winner.tricks == 5
-            Player.winner.score += 1
-        end
-            
-        Player.score
-    end
-
 end

@@ -51,13 +51,11 @@ class Cards
 	def self.winner(leader_card, follower_card)
 		if leader_card.suit != follower_card.suit && follower_card.suit != @@trump.suit
 			return leader_card
-		else
-			if leader_card.value > follower_card.value
-				return leader_card
-			elsif leader_card.value > follower_card.value
-				return follower_card
-			end
-		end
+        end
+		if leader_card.value > follower_card.value
+			return leader_card
+        end
+		return follower_card
 	end
 
 	def name()
