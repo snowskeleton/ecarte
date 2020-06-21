@@ -6,8 +6,26 @@ class Player
     @@eldest_hand
     @@leader
     @@follower
+    @@winner
+    @@loser
 
-    def self.list
+    def self.winner=(player)
+        @@winner = player
+    end
+
+    def self.loser=(player)
+        @@loser = player
+    end
+
+    def self.leader()
+        @@leader
+    end
+
+    def self.follower()
+        @@follower
+    end
+
+    def self.list()
         @@list
     end
 
@@ -33,6 +51,11 @@ class Player
         end
     end
 
+    def self.score()
+        Player.list.each do |player|
+            puts "#{player.name} is at #{player.score}"
+        end
+    end
     attr_accessor :name, :score, :hand, :vulnerable, :tricks
     def initialize(name)
         @name = name
@@ -52,6 +75,10 @@ class Player
     end
 
     def hand()
+        @hand
+    end
+
+    def show_hand()
         puts "#{self.name}'s hand\n"
         number = 0
         @hand.each do |card|
@@ -68,7 +95,7 @@ class Player
 
     def pick_card()
         1.times do
-            card = Game.input_number(nil)
+            card = gets.to_i
             if card > @hand.count - 1 # -1, else it allows you to select 5, which doesn't work the way you want when counting from 0.
                 print "\nHurr durr, that's not a card. Try again.\n\nCard? "
                 redo
@@ -78,6 +105,10 @@ class Player
     end
 
     def self.play()
+        Player.list.each do |player|
+            player.tricks = 0
+        end
+
         tricks = 1
         @@leader = @@eldest_hand
         @@follower = @@dealer
@@ -105,7 +136,7 @@ class Player
     end
 
     def lead()
-        self.hand
+        self.show_hand
         puts
 
         print "Which card would you like to play? "
@@ -129,7 +160,7 @@ class Player
         end
 
         1.times do
-            self.hand
+            self.show_hand()
             puts
 
             print "Which card would you like to play? "
@@ -153,7 +184,7 @@ class Player
     end
 
     def discard?()
-        self.hand
+        self.show_hand()
         puts
         1.times do
             print "Would you like to discard and redraw? "
@@ -173,7 +204,7 @@ class Player
     def redraw(number)
         1.times do
             if number == nil
-                self.hand
+                self.show_hand()
                 puts
                 number = Game.input_number("How many cards would you like to redraw? ")
                 puts
@@ -189,7 +220,7 @@ class Player
         i = 0
         number.times do
             1.times do
-                self.hand
+                self.show_hand()
                 puts
                 print "Which card would you like to discard?(#{i}/#{number}) "
                 card = self.pick_card()
@@ -219,4 +250,27 @@ class Player
             end
         end
     end
+
+
+    def self.declare_score()
+        if @@dealer.tricks > @@eldest_hand.tricks 
+            @@winner = @@dealer and @@loser = @@eldest_hand 
+        else
+            @@winner = @@eldest_hand and @@loser = @@dealer
+        end
+        puts "#{@@winner.name} got #{@@winner.tricks}!"
+
+        @@winner.score += 1
+
+        if @@loser.vulnerable?
+            @@winner.score += 1
+        end
+
+        if @@winner.tricks == 5
+            @@winner.score += 1
+        end
+            
+        Player.score
+    end
+
 end

@@ -1,6 +1,7 @@
 #!/bin/ruby
 
 class Game
+
  	def self.keep_going?()
         if (Player.list.first.score >= 5 || Player.list.last.score >= 5)
             return false
@@ -11,9 +12,7 @@ class Game
 
     def self.input_number(string)
         1.times do
-            if string != nil 
-                print string
-            end
+            print string
             input = gets.chomp
             input if Float(input) rescue redo
         end
@@ -65,7 +64,7 @@ class Game
                     puts "Do you wish to reveal the King of trumps?(Y/n)"
                     answer = gets.chomp
                     if answer == "y"
-                        puts card.name
+                        puts "#{player.name} reveals the #{card.name}\n\n"
                         player.score += 1
                     end
                 end
@@ -74,8 +73,24 @@ class Game
 	end
 
     def self.declare_score()
-                Player.dealer.tricks > Player.follower.tricks ? winner = Player.dealer : winner = Player.eldest_hand
-                puts "#{winner.name} got #{winner.tricks}!"
+        if Player.dealer.tricks > Player.eldest_hand.tricks 
+            Player.winner = Player.dealer and Player.loser = Player.eldest_hand 
+        else
+            Player.winner = Player.eldest_hand and Player.loser = Player.dealer
+        end
+        puts "#{Player.winner.name} got #{Player.winner.tricks}!"
+
+        Player.winner.score += 1
+
+        if Player.loser.vulnerable?
+            Player.winner.score += 1
+        end
+
+        if Player.winner.tricks == 5
+            Player.winner.score += 1
+        end
+            
+        Player.score
     end
 
 end
