@@ -1,7 +1,7 @@
 #!/bin/ruby
 class Cards
 	@@deck = []
-	@@trump = ""
+	@@trump = nil
 
 	def self.newdeck()
 		["Clubs", "Hearts", "Spades", "Diamonds"].each do |suit|
@@ -27,6 +27,14 @@ class Cards
 		@@deck
 	end
 
+    def self.set_trump()
+            @@trump = @@deck.delete_at(1)
+            puts "#{Player.dealer.name} flips over a #{@@trump.name}.\n\n"
+            if @@trump.number == "King" && Player.dealer.score < 4
+                Player.dealer.score += 1
+            end
+    end
+
 	attr_accessor :number, :suit, :value, :name
 
 	def initialize(number, suit, value)
@@ -37,7 +45,7 @@ class Cards
 	end
 
 	def self.winner(leader_card, follower_card)
-		if leader_card.suit != follower_card.suit && follower_card.suit != @@trump
+		if leader_card.suit != follower_card.suit && follower_card.suit != @@trump.suit
 			return leader_card
 		else
 			if leader_card.value > follower_card.value

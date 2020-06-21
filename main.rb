@@ -12,7 +12,9 @@ while Game.keep_going?()
 	Dealing.rotate()
 	Cards.newdeck()
 	Cards.shuffle()
-	Player.new_hand
+	Player.new_hand()
+    Cards.set_trump()
 	Game.change_cards()
 	Player.play()
+    Player.declare_score()
 end
