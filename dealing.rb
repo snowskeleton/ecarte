@@ -23,8 +23,8 @@ class Dealing
         end
 
 	def self.set_dealer()
-		Player.set_dealer(Player.list.first)
-		Player.set_eldest_hand(Player.list.last)
+		Player.set_dealer(Player.list.last)
+		Player.set_eldest_hand(Player.list.first)
 	end
 end
 

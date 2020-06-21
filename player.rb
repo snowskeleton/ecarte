@@ -52,11 +52,11 @@ class Player
     end
 
     def hand()
+        puts "#{self.name}'s hand\n"
         number = 0
         @hand.each do |card|
-            print number.to_s, + ". ", + @hand[number].name
+            puts "#{number}. #{@hand[number].name}"
             number += 1
-            puts
         end
     end
 
@@ -132,6 +132,7 @@ class Player
                 force_follow_suit = true
             end
         end
+
         1.times do
             self.hand
             puts
@@ -146,6 +147,7 @@ class Player
                 sleep(1)
                 redo
             end
+        end
 
             puts "\Playing #{@hand[card].name}\n"
             card = @hand.delete_at(card)
@@ -153,10 +155,11 @@ class Player
 
             sleep(1)
             return card
-        end
     end
 
     def discard?()
+        self.hand
+        puts
         1.times do
             print "Would you like to discard and redraw? "
             answer = gets.chomp
@@ -175,8 +178,9 @@ class Player
     def redraw(number)
         1.times do
             if number == nil
-                print "How many cards would you like to redraw? "
-                number = gets.to_i
+                self.hand
+                puts
+                number = Game.input_number("How many cards would you like to redraw? ")
                 puts
             end
 

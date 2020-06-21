@@ -35,6 +35,10 @@ class Cards
             end
     end
 
+    def self.trump()
+        @@trump
+    end
+
 	attr_accessor :number, :suit, :value, :name
 
 	def initialize(number, suit, value)

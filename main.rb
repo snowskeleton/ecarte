@@ -7,6 +7,7 @@ require_relative 'dealing.rb'
 
 
 
+system("clear")
 Gather.players(2)
 while Game.keep_going?()
 	Dealing.rotate()
