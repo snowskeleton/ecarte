@@ -17,11 +17,11 @@ class Cards
 		@@deck.shuffle!
 	end
 
-	def self.showdeck()
-		@@deck.each do |card|
-			p card
-		end
-	end
+	#def self.showdeck()
+		#@@deck.each do |card|
+			#p card
+		#end
+	#end
 
 	def self.deck()
 		@@deck

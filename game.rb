@@ -2,6 +2,22 @@
 
 class Game
 
+    def self.yesno?(question)
+        1.times do
+            print question
+            answer = gets.chomp
+            case answer
+            when "yes", "ye", "y", "eys"
+                return true
+            when "no", "on", "n", "non"
+                return false
+            else
+                puts "Input not recognized.\n"
+                redo
+            end
+        end
+    end
+
  	def self.keep_going?()
         if (Player.list.first.score >= 5 || Player.list.last.score >= 5)
             return false
@@ -61,9 +77,7 @@ class Game
         Player.list.each do |player|
             player.hand.each do |card|
                 if card.number == "King" && card.suit == Cards.trump.suit
-                    puts "Do you wish to reveal the King of trumps?(Y/n)"
-                    answer = gets.chomp
-                    if answer == "y"
+                    if Game.yesno?("Do you wish to reveal the King of trumps?(Y/n) ")
                         puts "#{player.name} reveals the #{card.name}\n\n"
                         player.score += 1
                     end

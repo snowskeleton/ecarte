@@ -85,7 +85,6 @@ class Player
             puts "#{number}. #{@hand[number].name}"
             number += 1
         end
-        puts
     end
 
     def draw(number)
@@ -95,18 +94,13 @@ class Player
     end
 
     def pick_card()
-        self.show_hand
         1.times do
-            print "Which card would you like to play? "
             card = gets.to_i
             if card > @hand.count - 1 # -1, else it allows you to select 5, which doesn't work the way you want when counting from 0.
+                print "\nHurr durr, that's not a card. Try again.\n\nCard? "
                 redo
             end
-            puts
-
-            puts "\Playing #{@hand[card].name}\n"
-            puts
-            return @hand.delete_at(card)
+            return card
         end
     end
 
@@ -142,7 +136,17 @@ class Player
     end
 
     def lead()
-        card = self.pick_card()
+        self.show_hand
+        puts
+
+        print "Which card would you like to play? "
+        input = self.pick_card()
+        puts
+
+        puts "\Playing #{@hand[input].name}\n"
+        card = @hand.delete_at(input)
+        puts
+
         sleep(1)
         return card
     end
@@ -156,34 +160,43 @@ class Player
         end
 
         1.times do
-            follower_card = self.pick_card()
+            self.show_hand()
+            puts
 
-            if force_follow_suit && follower_card.suit != leader_card.suit
+            print "Which card would you like to play? "
+            card = self.pick_card()
+            puts
+
+            if force_follow_suit && @hand[card].suit != leader_card.suit
                 puts "Please follow suit."
-                @hand.push(follower_card)
                 puts
                 sleep(1)
                 redo
             end
             # I'd love to take from here til the end out of the 1.times block, but then local variables break.
-            puts "\Playing #{follower_card.name}\n"
+            puts "\Playing #{@hand[card].name}\n"
+            card = @hand.delete_at(card)
             puts
+
             sleep(1)
-            @hand.delete(follower_card)
-            return follower_card
-            #for some reason, just having "return @hand.delete(follower_card)" returns a nil value. not sure why.
+            return card
         end
     end
 
     def discard?()
         self.show_hand()
-        return Game.yesno?("Would you like to discard and redraw? ")
+        puts
+        1.times do
+            print "Would you like to discard and redraw? "
+            return Game.yesno()
+        end
     end
 
     def redraw(number)
         1.times do
             if number == nil
                 self.show_hand()
+                puts
                 number = Game.input_number("How many cards would you like to redraw? ")
                 puts
             end
@@ -199,6 +212,7 @@ class Player
         number.times do
             1.times do
                 self.show_hand()
+                puts
                 print "Which card would you like to discard?(#{i}/#{number}) "
                 card = self.pick_card()
                 puts "\nDiscarding #{@hand.delete_at(card).name}\n"
@@ -212,7 +226,20 @@ class Player
     end
 
     def permission?(number)
-        return Game.yesno?("Will you allow your opponent to discard #{number} cards? ")
+        1.times do
+            print "Will you allow your opponent to discard #{number} cards? "
+            answer = gets.chomp
+            puts
+            case answer
+            when "yes", "ye", "y", "eys"
+                return true
+            when "no", "on", "n"
+                return false
+            else
+                puts "Input not recognized. Please provide an acceptable answer.\n"
+                redo
+            end
+        end
     end
 
 
