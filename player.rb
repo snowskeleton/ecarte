@@ -45,9 +45,9 @@ class Player
         @@eldest_hand
     end
 
-    def self.new_hand()
+    def self.draw()
         self.list.each do |player|
-            player.draw(5)
+            player.draw()
         end
     end
 
@@ -90,8 +90,8 @@ class Player
         puts
     end
 
-    def draw(number)
-        number.times do
+    def draw()
+        until @hand.count == 5 do
             @hand.push(Cards.deck.delete_at(1))
         end
     end
@@ -100,15 +100,9 @@ class Player
         self.show_hand
         1.times do
             card = Game.input_number("Pick a card: ")
-            #print "Which card would you like to play? "
-            #card = gets.to_i
             if card > @hand.count - 1 # -1, else it allows you to select 5, which doesn't work the way you want when counting from 0.
                 redo
             end
-            puts
-
-            #puts "\Playing #{@hand[card].name}\n"
-            #remove the above line and make the individual method decice what it wants to say.
             puts
             return @hand.delete_at(card)
         end
@@ -200,14 +194,13 @@ class Player
         number.times do
             1.times do
                 card = self.pick_card()
-                puts "\nDiscarding #{card.name}\n"
+                puts "Discarding #{card.name}\n"
+                puts
                 sleep(1)
-                #puts
                 i += 1
             end
         end
-        #puts
-        self.draw(number)
+        self.draw()
     end
 
     def permission?(number)

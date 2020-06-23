@@ -7,11 +7,14 @@ class Game
             print question
             answer = gets.chomp
             case answer
-            when "yes", "ye", "y", "eys"
+            when "yes", "ye", "y", "eys", "yse"
+                puts
                 return true
             when "no", "on", "n", "non"
+                puts
                 return false
             else
+                puts
                 puts "Input not recognized.\n"
                 redo
             end

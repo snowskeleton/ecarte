@@ -17,12 +17,6 @@ class Cards
 		@@deck.shuffle!
 	end
 
-	#def self.showdeck()
-		#@@deck.each do |card|
-			#p card
-		#end
-	#end
-
 	def self.deck()
 		@@deck
 	end
@@ -45,7 +39,6 @@ class Cards
 		@number = number
 		@suit = suit
 		@value = value
-		@name = "#{number} of #{suit}"
 	end
 
 	def self.winner(leader_card, follower_card)
@@ -59,6 +52,6 @@ class Cards
 	end
 
 	def name()
-		@name
+        "#{number} of #{suit}"
 	end
 end
