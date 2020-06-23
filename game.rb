@@ -29,8 +29,10 @@ class Game
     def self.input_number(string)
         1.times do
             print string
-            input = gets.chomp
-            input if Float(input) rescue redo
+            input = gets.to_i
+            puts input
+            #puts "class.game | def.self.input_number"
+            input if Integer(input) rescue redo
         end
     end
 

@@ -56,7 +56,9 @@ class Player
             puts "#{player.name} is at #{player.score}"
         end
     end
+
     attr_accessor :name, :score, :hand, :vulnerable, :tricks
+
     def initialize(name)
         @name = name
         @vulnerable = false
@@ -97,6 +99,8 @@ class Player
     def pick_card()
         self.show_hand
         1.times do
+            #card = Game.input_number("Which card would you like to play? ")
+            # why doesn't this work?
             print "Which card would you like to play? "
             card = gets.to_i
             if card > @hand.count - 1 # -1, else it allows you to select 5, which doesn't work the way you want when counting from 0.
@@ -165,13 +169,8 @@ class Player
                 sleep(1)
                 redo
             end
-            # I'd love to take from here til the end out of the 1.times block, but then local variables break.
-            puts "\Playing #{follower_card.name}\n"
-            puts
             sleep(1)
-            @hand.delete(follower_card)
             return follower_card
-            #for some reason, just having "return @hand.delete(follower_card)" returns a nil value. not sure why.
         end
     end
 
@@ -236,5 +235,4 @@ class Player
             
         Player.score
     end
-
 end
