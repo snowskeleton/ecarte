@@ -29,10 +29,12 @@ class Game
     def self.input_number(string)
         1.times do
             print string
-            input = gets.to_i
-            puts input
-            #puts "class.game | def.self.input_number"
-            input if Integer(input) rescue redo
+            input = gets.chomp
+            if input =~ /^-?[0-9]+$/
+                return input.to_i
+            else
+                redo
+            end
         end
     end
 

@@ -99,16 +99,16 @@ class Player
     def pick_card()
         self.show_hand
         1.times do
-            #card = Game.input_number("Which card would you like to play? ")
-            # why doesn't this work?
-            print "Which card would you like to play? "
-            card = gets.to_i
+            card = Game.input_number("Pick a card: ")
+            #print "Which card would you like to play? "
+            #card = gets.to_i
             if card > @hand.count - 1 # -1, else it allows you to select 5, which doesn't work the way you want when counting from 0.
                 redo
             end
             puts
 
-            puts "\Playing #{@hand[card].name}\n"
+            #puts "\Playing #{@hand[card].name}\n"
+            #remove the above line and make the individual method decice what it wants to say.
             puts
             return @hand.delete_at(card)
         end
@@ -146,6 +146,7 @@ class Player
     end
 
     def lead()
+        puts "\Playing #{@hand[card].name}\n"
         card = self.pick_card()
         sleep(1)
         return card
@@ -160,6 +161,7 @@ class Player
         end
 
         1.times do
+            puts "\Playing #{@hand[card].name}\n"
             follower_card = self.pick_card()
 
             if force_follow_suit && follower_card.suit != leader_card.suit
@@ -197,16 +199,14 @@ class Player
         i = 0
         number.times do
             1.times do
-                self.show_hand()
-                print "Which card would you like to discard?(#{i}/#{number}) "
                 card = self.pick_card()
-                puts "\nDiscarding #{@hand.delete_at(card).name}\n"
+                puts "\nDiscarding #{card.name}\n"
                 sleep(1)
-                puts
+                #puts
                 i += 1
             end
         end
-        puts
+        #puts
         self.draw(number)
     end
 
