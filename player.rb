@@ -57,6 +57,58 @@ class Player
         end
     end
 
+    def self.play()
+        Player.list.each do |player|
+            player.tricks = 0
+        end
+
+        tricks = 1
+        @@leader = @@eldest_hand
+        @@follower = @@dealer
+
+        until tricks == 6
+            puts "#{@@leader.name} leads.\n\n"
+            leader_card = @@leader.lead()
+            follower_card = @@follower.follow(leader_card)
+            winner = Cards.winner(leader_card, follower_card)
+
+            if leader_card != winner
+                puts "#{@@follower.name} won.\n"
+                @@follower.tricks += 1
+
+                temp = @@leader
+                @@leader = @@follower
+                @@follower = temp
+            else
+                puts "#{@@leader.name} won.\n"
+                @@leader.tricks += 1
+            end
+
+            tricks += 1
+        end
+    end
+
+    def self.declare_score()
+        if @@dealer.tricks > @@eldest_hand.tricks 
+            @@winner = @@dealer and @@loser = @@eldest_hand 
+        else
+            @@winner = @@eldest_hand and @@loser = @@dealer
+        end
+        puts "#{@@winner.name} got #{@@winner.tricks}!"
+
+        @@winner.score += 1
+
+        if @@loser.vulnerable?
+            @@winner.score += 1
+        end
+
+        if @@winner.tricks == 5
+            @@winner.score += 1
+        end
+            
+        Player.score
+    end
+
     attr_accessor :name, :score, :hand, :vulnerable, :tricks
 
     def initialize(name)
@@ -108,40 +160,9 @@ class Player
         end
     end
 
-    def self.play()
-        Player.list.each do |player|
-            player.tricks = 0
-        end
-
-        tricks = 1
-        @@leader = @@eldest_hand
-        @@follower = @@dealer
-
-        until tricks == 6
-            puts "#{@@leader.name} leads.\n\n"
-            leader_card = @@leader.lead()
-            follower_card = @@follower.follow(leader_card)
-            winner = Cards.winner(leader_card, follower_card)
-
-            if leader_card != winner
-                puts "#{@@follower.name} won.\n"
-                @@follower.tricks += 1
-
-                temp = @@leader
-                @@leader = @@follower
-                @@follower = temp
-            else
-                puts "#{@@leader.name} won.\n"
-                @@leader.tricks += 1
-            end
-
-            tricks += 1
-        end
-    end
-
     def lead()
-        puts "\Playing #{@hand[card].name}\n"
         card = self.pick_card()
+        puts "\Playing #{card.name}\n\n"
         sleep(1)
         return card
     end
@@ -155,8 +176,8 @@ class Player
         end
 
         1.times do
-            puts "\Playing #{@hand[card].name}\n"
             follower_card = self.pick_card()
+            puts "\Playing #{follower_card.name}\n\n"
 
             if force_follow_suit && follower_card.suit != leader_card.suit
                 puts "Please follow suit."
@@ -205,27 +226,5 @@ class Player
 
     def permission?(number)
         return Game.yesno?("Will you allow your opponent to discard #{number} cards? ")
-    end
-
-
-    def self.declare_score()
-        if @@dealer.tricks > @@eldest_hand.tricks 
-            @@winner = @@dealer and @@loser = @@eldest_hand 
-        else
-            @@winner = @@eldest_hand and @@loser = @@dealer
-        end
-        puts "#{@@winner.name} got #{@@winner.tricks}!"
-
-        @@winner.score += 1
-
-        if @@loser.vulnerable?
-            @@winner.score += 1
-        end
-
-        if @@winner.tricks == 5
-            @@winner.score += 1
-        end
-            
-        Player.score
     end
 end
