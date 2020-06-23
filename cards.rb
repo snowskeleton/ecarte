@@ -3,6 +3,14 @@ class Cards
 	@@deck = []
 	@@trump = nil
 
+	def self.deck()
+		@@deck
+	end
+
+    def self.trump()
+        @@trump
+    end
+
 	def self.newdeck()
 		["Clubs", "Hearts", "Spades", "Diamonds"].each do |suit|
 			value = 1
@@ -13,19 +21,8 @@ class Cards
 		end
 	end
 
-	def self.winner(leader_card, follower_card)
-		if leader_card.suit != follower_card.suit && follower_card.suit != @@trump.suit
-			return leader_card
-        end
-        leader_card if leader_card.value > follower_card.value rescue follower_card
-	end
-
 	def self.shuffle()
 		@@deck.shuffle!
-	end
-
-	def self.deck()
-		@@deck
 	end
 
     def self.set_trump()
@@ -36,9 +33,16 @@ class Cards
             end
     end
 
-    def self.trump()
-        @@trump
-    end
+	def self.winner(leader_card, follower_card)
+		if leader_card.suit != follower_card.suit && follower_card.suit != @@trump.suit
+			return leader_card
+        end
+        if leader_card.value > follower_card.value
+            return leader_card 
+        else
+            return follower_card
+        end
+	end
 
 	attr_accessor :number, :suit, :value, :name
 
