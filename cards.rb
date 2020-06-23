@@ -13,6 +13,13 @@ class Cards
 		end
 	end
 
+	def self.winner(leader_card, follower_card)
+		if leader_card.suit != follower_card.suit && follower_card.suit != @@trump.suit
+			return leader_card
+        end
+        leader_card if leader_card.value > follower_card.value rescue follower_card
+	end
+
 	def self.shuffle()
 		@@deck.shuffle!
 	end
@@ -22,7 +29,7 @@ class Cards
 	end
 
     def self.set_trump()
-            @@trump = @@deck.delete_at(1)
+            @@trump = @@deck.delete_at(0)
             puts "#{Player.dealer.name} flips over a #{@@trump.name}.\n\n"
             if @@trump.number == "King" && Player.dealer.score < 4
                 Player.dealer.score += 1
@@ -39,16 +46,6 @@ class Cards
 		@number = number
 		@suit = suit
 		@value = value
-	end
-
-	def self.winner(leader_card, follower_card)
-		if leader_card.suit != follower_card.suit && follower_card.suit != @@trump.suit
-			return leader_card
-        end
-		if leader_card.value > follower_card.value
-			return leader_card
-        end
-		return follower_card
 	end
 
 	def name()
