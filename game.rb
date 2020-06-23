@@ -66,9 +66,9 @@ class Game
 				Player.eldest_hand.redraw(answer)
 				Player.dealer.redraw(nil)
 			else
-				if first == true
-					Player.dealer.set_vulnerable=(true)
-				end
+				Player.dealer.set_vulnerable=(true) if first == true
+					#Player.dealer.set_vulnerable=(true)
+				#end
 				break
 			end
 		end
