@@ -29,13 +29,14 @@ class Game
         end
     end
 
-    def self.input_number(string)
+    def self.input_number(string, max_num)
         1.times do
             print string
             input = gets.chomp
-            if input =~ /^-?[0-9]+$/
+            if input =~ /^-?[0-9]+$/ && input.to_i <= max_num.to_i
                 return input.to_i
             else
+                puts "No card in that range. Please try again."
                 redo
             end
         end
@@ -49,7 +50,7 @@ class Game
 		while Player.eldest_hand.discard?()
 			Player.eldest_hand.set_vulnerable=(false)
 
-            answer  = Game.input_number("How many cards would you, #{Player.eldest_hand.name}, like to discard? ")
+            answer  = Game.input_number("How many cards would you, #{Player.eldest_hand.name}, like to discard? ", Player.eldest_hand.hand.count)
             puts
 
 			#this could be a method
@@ -67,8 +68,6 @@ class Game
 				Player.dealer.redraw(nil)
 			else
 				Player.dealer.set_vulnerable=(true) if first == true
-					#Player.dealer.set_vulnerable=(true)
-				#end
 				break
 			end
 		end
