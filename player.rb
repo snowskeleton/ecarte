@@ -148,13 +148,20 @@ class Player
         end
     end
 
-    def pick_card()
+    def pick_card(leader_suit=nil)
         self.show_hand
         1.times do
             card = Game.input_number("Pick a card: ", self.hand.count)
+
             if card > @hand.count
                 redo
             end
+
+            if leader_suit && @hand[card -1].suit != leader_suit
+                puts "Please follow suit."
+                redo
+            end
+
             puts
             return @hand.delete_at(card - 1) # the +1 is because the array starts at 0
         end
@@ -168,24 +175,17 @@ class Player
     end
 
     def follow(leader_card)
-        force_follow_suit = false
+        force_follow_suit = nil
         @hand.each do |card|
             if card.suit == leader_card.suit
-                force_follow_suit = true
+                force_follow_suit = leader_card.suit
             end
         end
 
         1.times do
-            follower_card = self.pick_card()
+            follower_card = self.pick_card(force_follow_suit)
             puts "\Playing #{follower_card.name}\n\n"
 
-            if force_follow_suit && follower_card.suit != leader_card.suit
-                puts "Please follow suit."
-                @hand.push(follower_card)
-                puts
-                sleep(1)
-                redo
-            end
             sleep(1)
             return follower_card
         end
