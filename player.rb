@@ -212,12 +212,9 @@ class Player
         end
 
         number.times do
-            1.times do
                 card = self.pick_card()
-                puts "Discarding #{card.name}\n"
-                puts
+                puts "Discarding #{card.name}\n\n"
                 sleep(1)
-            end
         end
         self.draw()
     end
