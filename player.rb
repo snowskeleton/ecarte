@@ -118,6 +118,7 @@ class Player
         @tricks = 0
         @hand = []
         @@list.push(self)
+        @fake = false
     end
 
     def set_vulnerable=(bool)
@@ -133,13 +134,15 @@ class Player
     end
 
     def show_hand()
-        puts "#{self.name}'s hand\n"
-        number = 1
-        @hand.each do |card|
-            puts "#{number}. #{@hand[number - 1].name}"
-            number += 1
+        if @fake == false
+            puts "#{self.name}'s hand\n"
+            number = 1
+            @hand.each do |card|
+                puts "#{number}. #{@hand[number - 1].name}" # -1 because arrays are weird
+                number += 1
+            end
+            puts
         end
-        puts
     end
 
     def draw()
@@ -150,20 +153,25 @@ class Player
 
     def pick_card(leader_suit=nil)
         self.show_hand
-        1.times do
-            card = Game.input_number("Pick a card: ", self.hand.count)
+        if @fake
+            exit
+        else
 
-            if card > @hand.count
-                redo
+            1.times do
+                card = Game.input_number("Pick a card: ", self.hand.count)
+
+                if card > @hand.count
+                    redo
+                end
+
+                if leader_suit && @hand[card -1].suit != leader_suit
+                    puts "Please follow suit."
+                    redo
+                end
+
+                puts
+                return @hand.delete_at(card - 1) # +1 is because the array starts at 0
             end
-
-            if leader_suit && @hand[card -1].suit != leader_suit
-                puts "Please follow suit."
-                redo
-            end
-
-            puts
-            return @hand.delete_at(card - 1) # +1 is because the array starts at 0
         end
     end
 
@@ -182,13 +190,11 @@ class Player
             end
         end
 
-        1.times do
-            follower_card = self.pick_card(force_follow_suit)
-            puts "\Playing #{follower_card.name}\n\n"
+        follower_card = self.pick_card(force_follow_suit)
+        puts "\Playing #{follower_card.name}\n\n"
 
-            sleep(1)
-            return follower_card
-        end
+        sleep(1)
+        return follower_card
     end
 
     def discard?()
