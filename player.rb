@@ -134,7 +134,7 @@ class Player
 
     def show_hand()
         puts "#{self.name}'s hand\n"
-        number = 0
+        number = 1
         @hand.each do |card|
             puts "#{number}. #{@hand[number].name}"
             number += 1
@@ -151,12 +151,12 @@ class Player
     def pick_card()
         self.show_hand
         1.times do
-            card = Game.input_number("Pick a card: ")
-            if card > @hand.count - 1 # -1, else it allows you to select 5, which doesn't work the way you want when counting from 0.
+            card = Game.input_number("Pick a card: ", self.hand.count)
+            if card > @hand.count
                 redo
             end
             puts
-            return @hand.delete_at(card)
+            return @hand.delete_at(card + 1) # the +1 is because the array starts at 0
         end
     end
 
@@ -200,7 +200,7 @@ class Player
         1.times do
             if number == nil
                 self.show_hand()
-                number = Game.input_number("How many cards would you like to redraw? ")
+                number = Game.input_number("How many cards would you like to redraw? ", self.hand.count)
                 puts
             end
 
