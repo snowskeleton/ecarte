@@ -163,7 +163,7 @@ class Player
             end
 
             puts
-            return @hand.delete_at(card - 1) # the +1 is because the array starts at 0
+            return @hand.delete_at(card - 1) # +1 is because the array starts at 0
         end
     end
 
