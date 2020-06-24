@@ -136,7 +136,7 @@ class Player
         puts "#{self.name}'s hand\n"
         number = 1
         @hand.each do |card|
-            puts "#{number}. #{@hand[number].name}"
+            puts "#{number}. #{@hand[number - 1].name}"
             number += 1
         end
         puts
@@ -156,7 +156,7 @@ class Player
                 redo
             end
             puts
-            return @hand.delete_at(card + 1) # the +1 is because the array starts at 0
+            return @hand.delete_at(card - 1) # the +1 is because the array starts at 0
         end
     end
 
