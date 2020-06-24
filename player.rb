@@ -144,7 +144,7 @@ class Player
 
     def draw()
         until @hand.count == 5 do
-            @hand.push(Cards.deck.delete_at(1))
+            @hand.push(Cards.deck.delete_at(0))
         end
     end
 
