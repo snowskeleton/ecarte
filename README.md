@@ -1,4 +1,4 @@
-# ecarte
+# Écarté
 A classic game of Écarté
 
 This is a learning project that allows the user to play a classic game of Écarté, an old French trick-taking game.
